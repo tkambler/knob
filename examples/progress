@@ -3,7 +3,11 @@
 const path = require('path');
 const os = require('os');
 
-module.exports = async (params) => {
+module.exports = async (params, {
+    version
+}) => {
+
+    console.log('You are using knob v' + version);
 
     const files = await params.glob('*', {
         cwd: os.homedir(),

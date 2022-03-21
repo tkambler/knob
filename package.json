@@ -4,10 +4,12 @@
   "description": "Knob",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./bundle && rm -rf ./dist && npm run bundle && npm run roll && npm run pkg",
+    "build": "rm -rf ./bundle && rm -rf ./dist && npm run bundle && npm run roll && npm run pkg:linux && npm run pkg:macos && npm run pkg:windows",
     "bundle": "ncc build -o ./bundle ./index.mjs",
     "roll": "rollup ./bundle/index.mjs -o ./bundle/rolled.js --format cjs",
-    "pkg": "pkg -d -t node16-linux-x64 -o ./dist/knob ./bundle/rolled.js"
+    "pkg:linux": "pkg -d -t node16-linux-x64 -o ./dist/linux/knob ./bundle/rolled.js",
+    "pkg:macos": "pkg -d -t node16-macos-x64 -o ./dist/macos/knob ./bundle/rolled.js",
+    "pkg:windows": "pkg -d -t node16-windows-x64 -o ./dist/windows/knob ./bundle/rolled.js"
   },
   "author": "",
   "license": "UNLICENSED",

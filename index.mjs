@@ -17,11 +17,13 @@ import * as async from 'async';
 import retry from 'p-retry';
 import * as marked from 'marked';
 import TerminalRenderer from 'marked-terminal';
-const _fp = require('lodash/fp');
+import _fp from 'lodash/fp.js';
+import pkg from './package.json';
 const script = process.argv[2];
 
 if (!script) {
-  throw new Error('No script specified');
+  console.error('No script specified');
+  process.exit(1);
 }
 
 marked.setOptions({
@@ -53,7 +55,11 @@ var $ = {
 };
 
 if (path.isAbsolute(script)) {
-    require(script)($);
+    require(script)($, {
+        version: pkg.version,
+    });
 } else {
-    require(path.resolve(process.cwd(), script))($);
+    require(path.resolve(process.cwd(), script))($, {
+        version: pkg.version,
+    });
 }
