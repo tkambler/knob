@@ -7,6 +7,9 @@ The intended use case is to place knob within the user's PATH, thus allowing the
 ```
 #!/usr/bin/env knob
 
+const path = require('path');
+const os = require('os');
+
 module.exports = async ({
     _,
     _fp,
