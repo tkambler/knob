@@ -1,0 +1,33 @@
+{
+  "npm.autoDetect": "off",
+  "editor.formatOnSave": true,
+  "search.exclude": {
+    "app/**/*.js": true,
+    "**/node_modules": true,
+    "**/shrinkwrap-deps.json": true
+  },
+  "files.exclude": {
+    "**/*.tar.gz": true,
+    "**/*.zip": true,
+    "**/*.js.map": true,
+    "**/*.jsx.map": true,
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*?.js": { "when": "$(basename).tsx" },
+    "**/*.jsx": {
+      "when": "$(basename).tsx"
+    }
+  },
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 120
+  },
+  "javascript.inlayHints.variableTypes.enabled": false,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": false,
+  "javascript.inlayHints.enumMemberValues.enabled": false,
+  "javascript.inlayHints.parameterNames.enabled": "none",
+  "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": false,
+  "javascript.inlayHints.parameterTypes.enabled": false,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": false
+}

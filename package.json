@@ -1,0 +1,42 @@
+{
+  "name": "@tkambler/knob",
+  "version": "0.0.1",
+  "description": "Knob",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./bundle && rm -rf ./dist && npm run bundle && npm run roll && npm run pkg",
+    "bundle": "ncc build -o ./bundle ./index.mjs",
+    "roll": "rollup ./bundle/index.mjs -o ./bundle/rolled.js --format cjs",
+    "pkg": "pkg -d -t node16-linux-x64 -o ./dist/knob ./bundle/rolled.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@vercel/ncc": "^0.33.3",
+    "async": "^3.2.3",
+    "axios": "^0.26.1",
+    "bluebird": "^3.7.2",
+    "chalk": "^5.0.1",
+    "delay": "^5.0.0",
+    "execa": "^6.1.0",
+    "fs-extra": "^10.0.1",
+    "glob": "^7.2.0",
+    "inquirer": "^8.2.1",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "marked": "^4.0.12",
+    "marked-terminal": "^5.1.1",
+    "moment": "^2.29.1",
+    "ora": "^6.1.0",
+    "p-retry": "^5.1.0",
+    "pkg": "^5.5.2",
+    "progress": "^2.0.3",
+    "rollup": "^2.70.1",
+    "underscore.string": "^3.3.6"
+  },
+  "pkg": {
+    "scripts": [
+      "./index.js"
+    ]
+  }
+}

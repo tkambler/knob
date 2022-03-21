@@ -1,0 +1,54 @@
+#!/usr/bin/env knob
+
+const path = require('path');
+const os = require('os');
+
+module.exports = async (params) => {
+
+    const files = await params.glob('*', {
+        cwd: os.homedir(),
+    });
+
+    console.log('Found the following files in your home folder:', os.EOL, os.EOL, JSON.stringify(files, null, 2), os.EOL);
+
+    const answers = await params.inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is your name?',
+            validate: value => value.trim() ? true : false,
+        }
+    ]);
+
+    console.log(`Hello, ${answers.name}.`);
+
+    const spinner = params.ora('Flurping...').start();
+
+    const { data } = await params.axios.get('https://jsonplaceholder.typicode.com/todos/1');
+
+    spinner.succeed('Flurping complete.');
+
+    console.log(data);
+
+    console.log(params.marked.marked(`
+# Heading
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## More Info
+
+Here is a list. What do you think about that?
+
+- Item One
+- Item Two
+- Item Three
+
+_This is italic text._
+
+\`\`\`
+# This is a doc block.
+$ uptime
+\`\`\`
+    `));
+
+};
