@@ -22,6 +22,13 @@ import pkg from './package.json';
 import { Listr } from 'listr2';
 const script = process.argv[2];
 
+switch (script) {
+  case '--version':
+  case '-v':
+    console.log(`v${pkg.version}`);
+    process.exit(0);
+}
+
 if (!script) {
   console.error('No script specified');
   process.exit(1);
