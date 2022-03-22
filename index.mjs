@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import progress from 'progress';
+import ProgressBar from 'progress';
 import ora from 'ora';
 import * as path from 'path';
 import * as Bluebird from 'bluebird';
@@ -19,6 +19,7 @@ import * as marked from 'marked';
 import TerminalRenderer from 'marked-terminal';
 import _fp from 'lodash/fp.js';
 import pkg from './package.json';
+import listr from 'listr';
 const script = process.argv[2];
 
 if (!script) {
@@ -27,39 +28,40 @@ if (!script) {
 }
 
 marked.setOptions({
-    renderer: new TerminalRenderer({
-        reflowText: true,
-    }),
+  renderer: new TerminalRenderer({
+    reflowText: true,
+  }),
 });
 
 var $ = {
-    _,
-    _fp,
-    async,
-    axios,
-    Bluebird,
-    chalk,
-    delay,
-    execa,
-    fs,
-    glob: Bluebird.promisify(glob),
-    inquirer,
-    ora,
-    progress,
-    retry,
-    str,
-    yaml,
-    marked: marked,
-    moment,
-    TerminalRenderer,
+  _,
+  _fp,
+  async,
+  axios,
+  Bluebird,
+  chalk,
+  delay,
+  execa,
+  fs,
+  glob: Bluebird.promisify(glob),
+  inquirer,
+  ora,
+  listr,
+  ProgressBar,
+  retry,
+  str,
+  yaml,
+  marked: marked,
+  moment,
+  TerminalRenderer,
 };
 
 if (path.isAbsolute(script)) {
-    require(script)($, {
-        version: pkg.version,
-    });
+  require(script)($, {
+    version: pkg.version,
+  });
 } else {
-    require(path.resolve(process.cwd(), script))($, {
-        version: pkg.version,
-    });
+  require(path.resolve(process.cwd(), script))($, {
+    version: pkg.version,
+  });
 }

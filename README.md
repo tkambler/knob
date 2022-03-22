@@ -22,8 +22,9 @@ module.exports = async ({
     fs,
     glob,
     inquirer,
+    listr,
     ora,
-    progress,
+    ProgressBar,
     retry,
     str,
     yaml,
@@ -91,6 +92,7 @@ $ uptime
 - axios
 - js-yaml
 - lodash
+- [listr](https://www.npmjs.com/package/listr)
 - moment
 - underscore.string
 - chalk

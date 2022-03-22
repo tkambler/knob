@@ -25,6 +25,7 @@
     "glob": "^7.2.0",
     "inquirer": "^8.2.1",
     "js-yaml": "^4.1.0",
+    "listr": "^0.14.3",
     "lodash": "^4.17.21",
     "marked": "^4.0.12",
     "marked-terminal": "^5.1.1",
@@ -40,5 +41,15 @@
     "scripts": [
       "./index.js"
     ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
+  "engines": {
+    "node": "16.x.x",
+    "npm": "8.x.x"
   }
 }

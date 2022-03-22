@@ -1,58 +1,39 @@
-#!/usr/bin/env knob
+#!/usr/bin/env NODE_OPTIONS=--no-warnings knob
 
-const path = require('path');
-const os = require('os');
+process.env.NODE_NO_WARNINGS = '1';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-module.exports = async (params, {
-    version
-}) => {
+module.exports = async ({ ProgressBar, axios, ora, Bluebird }) => {
+  console.log(ProgressBar);
+  return;
 
-    console.log('You are using knob v' + version);
+  const spinner = ora('Fetching todos...').start();
 
-    const files = await params.glob('*', {
-        cwd: os.homedir(),
-    });
+  let { data: todos } = await axios.get(
+    'https://jsonplaceholder.typicode.com/todos'
+  );
 
-    console.log('Found the following files in your home folder:', os.EOL, os.EOL, JSON.stringify(files, null, 2), os.EOL);
+  spinner.succeed(`${todos.length.toLocaleString()} todo(s) fetched.`);
 
-    const answers = await params.inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'What is your name?',
-            validate: value => value.trim() ? true : false,
-        }
-    ]);
+  const bar = new ProgressBar('[:bar] :percent :etas', {
+    total: todos.length,
+  });
 
-    console.log(`Hello, ${answers.name}.`);
+  todos = await Bluebird.map(
+    todos,
+    async (todo) => {
+      const data = await axios.get(
+        `https://jsonplaceholder.typicode.com/todos/${todo.id}`
+      );
+      bar.tick();
+      return data;
+    },
+    {
+      concurrency: 1,
+    }
+  );
 
-    const spinner = params.ora('Flurping...').start();
+  console.log(JSON.stringify(todos, null, 2));
 
-    const { data } = await params.axios.get('https://jsonplaceholder.typicode.com/todos/1');
-
-    spinner.succeed('Flurping complete.');
-
-    console.log(data);
-
-    console.log(params.marked.marked(`
-# Heading
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-## More Info
-
-Here is a list. What do you think about that?
-
-- Item One
-- Item Two
-- Item Three
-
-_This is italic text._
-
-\`\`\`
-# This is a doc block.
-$ uptime
-\`\`\`
-    `));
-
+  console.log('All done.');
 };
