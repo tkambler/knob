@@ -1,0 +1,20 @@
+#!/usr/bin/env knob
+
+const path = require('path');
+const os = require('os');
+
+/*
+Parses and prints the user's SSH config file.
+*/
+module.exports = async ({ SSHConfig, fs, prettyJSON }) => {
+  const sshConfigFilePath = path.resolve(os.homedir(), '.ssh/config');
+
+  if (!(await fs.pathExists(sshConfigFilePath))) {
+    console.error(`Unable to find SSH config file: ${sshConfigFilePath}`);
+  }
+
+  const sshConfig = SSHConfig.parse(
+    await fs.readFile(sshConfigFilePath, 'utf-8')
+  );
+  console.log(prettyJSON.render(sshConfig));
+};

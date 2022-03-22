@@ -1,0 +1,9 @@
+#!/usr/bin/env knob
+
+/*
+You cannot run this command as root or with sudo. Go ahead... try me.
+*/
+module.exports = ({ sudoBlock }) => {
+  sudoBlock();
+  console.log('You are not root... cool.');
+};

@@ -1,0 +1,53 @@
+#!/usr/bin/env knob
+
+const path = require('path');
+const os = require('os');
+
+module.exports = async ({ NodeSSH, SSHConfig, fs, inquirer }) => {
+  async function getSSHTargets() {
+    const sshConfigFilePath = path.resolve(os.homedir(), '.ssh/config');
+
+    if (!(await fs.pathExists(sshConfigFilePath))) {
+      console.error(`Unable to find SSH config file: ${sshConfigFilePath}`);
+    }
+
+    const sshConfig = SSHConfig.parse(
+      await fs.readFile(sshConfigFilePath, 'utf-8')
+    );
+
+    return sshConfig
+      .filter(
+        (row) => row.type === 1 && row.param === 'Host' && row.value !== '*'
+      )
+      .map((row) => row.value);
+  }
+
+  const targets = await getSSHTargets();
+
+  if (!targets.length) {
+    console.error(`Unable to find a list of possible SSH hosts.`);
+  }
+
+  const { host } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'host',
+      choices: targets,
+      message: 'Select an SSH host',
+      validate: (value) => (value.trim() ? true : false),
+    },
+  ]);
+
+  async function getRemoteFiles(host) {
+    const ssh = new NodeSSH();
+    await ssh.connect({
+      host,
+    });
+
+    const result = await ssh.execCommand('ls -al', { cwd: '~' });
+    console.log('result', result);
+  }
+
+  const files = await getRemoteFiles(host);
+  console.log(files);
+};

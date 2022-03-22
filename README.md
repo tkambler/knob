@@ -84,6 +84,15 @@ $ uptime
 
 ## Which packages does it include?
 
+- [prettyjson](https://www.npmjs.com/package/prettyjson)
+- [json-to-pretty-yaml](https://www.npmjs.com/package/json-to-pretty-yaml)
+- [AWS SDK](https://www.npmjs.com/package/aws-sdk)
+- [ssh-config](https://www.npmjs.com/package/ssh-config)
+- [node-ssh](https://www.npmjs.com/package/node-ssh)
+- [sudo](https://www.npmjs.com/package/sudo)
+- [is-root](https://www.npmjs.com/package/sudo)
+- [is-elevated](https://www.npmjs.com/package/is-elevated)
+- [sudo-block](https://www.npmjs.com/package/sudo-block)
 - [commander](https://www.npmjs.com/package/commander)
 - [conf](https://www.npmjs.com/package/conf)
 - [fs-extra](https://www.npmjs.com/package/fs-extra)

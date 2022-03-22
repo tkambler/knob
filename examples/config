@@ -1,5 +1,8 @@
 #!/usr/bin/env knob
 
+/*
+Briefly demonstrates the use of conf.
+*/
 module.exports = async ({ Commander: { program }, Conf }, _) => {
   const config = new Conf({
     projectName: 'knob_config_example',

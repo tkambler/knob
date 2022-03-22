@@ -1,0 +1,7 @@
+#!/usr/bin/env knob
+
+module.exports = async ({ AWS }) => {
+  const sts = new AWS.STS({ region: 'us-east-1' });
+  const data = await sts.getCallerIdentity().promise();
+  console.log(JSON.stringify(data, null, 2));
+};

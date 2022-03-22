@@ -1,0 +1,13 @@
+#!/usr/bin/env knob
+
+/*
+This script will error out if it is not run with root permissions.
+*/
+module.exports = ({ isRoot }) => {
+  if (!isRoot()) {
+    console.error('Error: You must run this script as root.');
+    process.exit(1);
+  }
+
+  console.log('You are running this script as root. Great.');
+};

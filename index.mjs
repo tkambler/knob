@@ -8,15 +8,24 @@ import axios from 'axios';
 import { default as Conf } from 'conf';
 import * as Commander from 'commander';
 import yaml from 'js-yaml';
-import * as str from 'underscore.string';
+import str from 'underscore.string';
 import _ from 'lodash';
 import moment from 'moment';
 import delay from 'delay';
 import chalk from 'chalk';
+import prettyJSON from 'prettyjson';
 import glob from 'glob';
+import sudo from 'sudo';
+import sudoBlock from 'sudo-block';
+import isElevated from 'is-elevated';
+import isRoot from 'is-root';
+import { NodeSSH } from 'node-ssh';
 import * as inquirer from 'inquirer';
 import * as enquirer from 'enquirer'; // Used by listr2
 import * as async from 'async';
+import * as AWS from 'aws-sdk';
+import prettyYAML from 'json-to-pretty-yaml';
+import SSHConfig from 'ssh-config';
 import retry from 'p-retry';
 import * as marked from 'marked';
 import TerminalRenderer from 'marked-terminal';
@@ -50,6 +59,7 @@ require(script)(
   {
     _,
     _fp,
+    AWS,
     async,
     axios,
     Bluebird,
@@ -59,9 +69,6 @@ require(script)(
       if (!options.projectName) {
         throw new Error(`Conf: options.projectName is required`);
       }
-      // if (!options.projectVersion) {
-      //   throw new Error(`Conf: options.projectVersion is required`);
-      // }
       return new Conf(options);
     },
     delay,
@@ -72,11 +79,19 @@ require(script)(
     inquirer,
     Listr,
     marked: marked,
+    NodeSSH,
     moment,
     ora,
     ProgressBar,
+    prettyYAML,
+    prettyJSON,
     retry,
     str,
+    isElevated,
+    isRoot,
+    SSHConfig,
+    sudo,
+    sudoBlock,
     TerminalRenderer,
     yaml,
   },

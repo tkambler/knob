@@ -1,0 +1,40 @@
+#!/usr/bin/env knob
+
+const os = require('os');
+
+/*
+This script will list all files found within the /root folder. If necessary,
+it will prompt the user for a password.
+*/
+module.exports = async ({ sudo, str, prettyJSON }) => {
+  async function getRootFiles() {
+    return new Promise((resolve, reject) => {
+      let result = '';
+      const child = sudo(['ls', '-f', '/root']);
+      child.stdout.on('data', (data) => {
+        result += data.toString('utf-8');
+      });
+      child.on('exit', (code) => {
+        if (code !== 0) {
+          return reject(new Error(`Command exited with code: ${code}`));
+        } else {
+          return resolve(
+            str
+              .lines(result)
+              .filter((line) => line.trim())
+              .filter((line) => line !== '.' && line !== '..')
+              .map((line) => `/root/${line}`)
+          );
+        }
+      });
+    });
+  }
+
+  const files = await getRootFiles();
+  console.log(
+    'The following files were found in /root:',
+    os.EOL,
+    os.EOL,
+    prettyJSON.render(files)
+  );
+};
