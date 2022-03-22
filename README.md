@@ -84,22 +84,24 @@ $ uptime
 
 ## Which packages does it include?
 
-- fs-extra
-- progress
-- ora
-- Bluebird
-- execa
-- axios
-- js-yaml
-- lodash
-- [listr2](https://listr2.kilic.dev/)
-- moment
-- underscore.string
-- chalk
-- js-yaml
-- delay
-- glob
-- inquirer
-- p-retry
-- marked, marked-terminal
-- async
+- [commander](https://www.npmjs.com/package/commander)
+- [fs-extra](https://www.npmjs.com/package/fs-extra)
+- [progress](https://www.npmjs.com/package/progress)
+- [ora](https://www.npmjs.com/package/ora)
+- [Bluebird](https://www.npmjs.com/package/bluebird)
+- [execa](https://www.npmjs.com/package/execa)
+- [axios](https://www.npmjs.com/package/axios)
+- [js-yaml](https://www.npmjs.com/package/js-yaml)
+- [lodash](https://www.npmjs.com/package/lodash)
+- [listr2](https://www.npmjs.com/package/listr2)
+- [moment](https://www.npmjs.com/package/moment)
+- [underscore.string](https://www.npmjs.com/package/underscore.string)
+- [chalk](https://www.npmjs.com/package/chalk)
+- [js-yaml](https://www.npmjs.com/package/js-yaml)
+- [delay](https://www.npmjs.com/package/delay)
+- [glob](https://www.npmjs.com/package/glob)
+- [inquirer](https://www.npmjs.com/package/inquirer)
+- [enquirer](https://www.npmjs.com/package/enquirer)
+- [p-retry](https://www.npmjs.com/package/p-retry)
+- [marked](https://www.npmjs.com/package/marked), [marked-terminal](https://www.npmjs.com/package/marked-terminal)
+- [async](https://www.npmjs.com/package/async)

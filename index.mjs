@@ -5,6 +5,7 @@ import * as path from 'path';
 import Bluebird from 'bluebird';
 import * as execa from 'execa';
 import axios from 'axios';
+import * as Commander from 'commander';
 import yaml from 'js-yaml';
 import * as str from 'underscore.string';
 import _ from 'lodash';
@@ -13,6 +14,7 @@ import delay from 'delay';
 import chalk from 'chalk';
 import glob from 'glob';
 import * as inquirer from 'inquirer';
+import * as enquirer from 'enquirer'; // Used by listr2
 import * as async from 'async';
 import retry from 'p-retry';
 import * as marked from 'marked';
@@ -20,16 +22,15 @@ import TerminalRenderer from 'marked-terminal';
 import _fp from 'lodash/fp.js';
 import pkg from './package.json';
 import { Listr } from 'listr2';
-const script = process.argv[2];
 
-switch (script) {
+switch (process.argv[2]) {
   case '--version':
   case '-v':
     console.log(`v${pkg.version}`);
     process.exit(0);
 }
 
-if (!script) {
+if (!process.argv[2]) {
   console.error('No script specified');
   process.exit(1);
 }
@@ -40,35 +41,37 @@ marked.setOptions({
   }),
 });
 
-var $ = {
-  _,
-  _fp,
-  async,
-  axios,
-  Bluebird,
-  chalk,
-  delay,
-  execa,
-  fs,
-  glob: Bluebird.promisify(glob),
-  inquirer,
-  ora,
-  Listr,
-  ProgressBar,
-  retry,
-  str,
-  yaml,
-  marked: marked,
-  moment,
-  TerminalRenderer,
-};
+const script = path.isAbsolute(process.argv[2])
+  ? process.argv[2]
+  : path.resolve(process.cwd(), process.argv[2]);
 
-if (path.isAbsolute(script)) {
-  require(script)($, {
+require(script)(
+  {
+    _,
+    _fp,
+    async,
+    axios,
+    Bluebird,
+    chalk,
+    Commander,
+    delay,
+    enquirer,
+    execa,
+    fs,
+    glob: Bluebird.promisify(glob),
+    inquirer,
+    Listr,
+    marked: marked,
+    moment,
+    ora,
+    ProgressBar,
+    retry,
+    str,
+    TerminalRenderer,
+    yaml,
+  },
+  {
     version: pkg.version,
-  });
-} else {
-  require(path.resolve(process.cwd(), script))($, {
-    version: pkg.version,
-  });
-}
+    argv: process.argv.slice(1),
+  }
+);
