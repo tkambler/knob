@@ -1,0 +1,36 @@
+#!/usr/bin/env knob
+
+module.exports = async ({ Commander: { program }, Conf }, _) => {
+  const config = new Conf({
+    projectName: 'knob_config_example',
+    schema: {
+      name: {
+        type: 'string',
+      },
+    },
+  });
+
+  program
+    .name('command')
+    .description('An example script that uses the conf library')
+    .version('1.0.0');
+
+  program
+    .command('get-name')
+    .description('Displays the name that is stored in the config file.')
+    .action(() => {
+      const name = config.get('name');
+      console.log(name ? `Name is: ${name}` : 'Name has not been set.');
+    });
+
+  program
+    .command('set-name')
+    .description('Stores name to a config file.')
+    .requiredOption('-n, --name <name>', 'Your name')
+    .action((options) => {
+      config.set('name', options.name);
+      console.log('Name has been saved to config.');
+    });
+
+  program.parse(_.argv);
+};

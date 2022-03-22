@@ -5,6 +5,7 @@ import * as path from 'path';
 import Bluebird from 'bluebird';
 import * as execa from 'execa';
 import axios from 'axios';
+import { default as Conf } from 'conf';
 import * as Commander from 'commander';
 import yaml from 'js-yaml';
 import * as str from 'underscore.string';
@@ -54,6 +55,15 @@ require(script)(
     Bluebird,
     chalk,
     Commander,
+    Conf: function (options = {}) {
+      if (!options.projectName) {
+        throw new Error(`Conf: options.projectName is required`);
+      }
+      // if (!options.projectVersion) {
+      //   throw new Error(`Conf: options.projectVersion is required`);
+      // }
+      return new Conf(options);
+    },
     delay,
     enquirer,
     execa,

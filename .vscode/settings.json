@@ -19,6 +19,9 @@
       "when": "$(basename).tsx"
     }
   },
+  "files.associations": {
+    "examples/*": "javascript"
+  },
   "[markdown]": {
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 120

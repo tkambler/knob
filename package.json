@@ -20,6 +20,7 @@
     "bluebird": "^3.7.2",
     "chalk": "^5.0.1",
     "commander": "^9.1.0",
+    "conf": "^10.1.1",
     "delay": "^5.0.0",
     "enquirer": "^2.3.6",
     "execa": "^6.1.0",

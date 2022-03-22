@@ -85,6 +85,7 @@ $ uptime
 ## Which packages does it include?
 
 - [commander](https://www.npmjs.com/package/commander)
+- [conf](https://www.npmjs.com/package/conf)
 - [fs-extra](https://www.npmjs.com/package/fs-extra)
 - [progress](https://www.npmjs.com/package/progress)
 - [ora](https://www.npmjs.com/package/ora)
