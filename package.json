@@ -1,6 +1,6 @@
 {
   "name": "@tkambler/knob",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Knob",
   "main": "index.js",
   "scripts": {
