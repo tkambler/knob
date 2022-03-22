@@ -1,0 +1,39 @@
+#!/usr/bin/env knob
+
+module.exports = async ({ Bluebird, Listr, axios, delay }) => {
+  const tasks = new Listr([
+    {
+      title: 'Fetch To-Dos',
+      task: async (ctx, task) => {
+        let { data: todos } = await axios.get(
+          'https://jsonplaceholder.typicode.com/todos'
+        );
+        ctx.output = `Fetched ${todos.length.toLocaleString()} to-do(s)`;
+        ctx.todos = todos;
+      },
+    },
+    {
+      title: 'Fetch To-Do Details',
+      task: async (ctx, task) => {
+        let counter = 0;
+        ctx.todos = await Bluebird.map(
+          ctx.todos,
+          async (todo, idx) => {
+            counter++;
+            task.title = `Fetching details for to-do ${counter.toLocaleString()} of ${ctx.todos.length.toLocaleString()}`;
+            const { data } = await axios.get(
+              `https://jsonplaceholder.typicode.com/todos/${todo.id}`
+            );
+            return data;
+          },
+          {
+            concurrency: 1,
+          }
+        );
+        task.title = `Fetch To-Do Details`;
+      },
+    },
+  ]);
+
+  const { todos } = await tasks.run();
+};

@@ -8,10 +8,10 @@ module.exports = async ({ ProgressBar, axios, ora, Bluebird }) => {
   );
 
   spinner.succeed(
-    `Summary data for ${todos.length.toLocaleString()} todo(s) fetched.`
+    `Summary data for ${todos.length.toLocaleString()} to-do(s) fetched.`
   );
 
-  spinner.info('Fetching details for todos...');
+  spinner.info('Fetching details for to-dos...');
 
   const bar = new ProgressBar('[:bar] :percent :etas', {
     total: todos.length,
