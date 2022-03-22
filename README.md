@@ -92,7 +92,7 @@ $ uptime
 - axios
 - js-yaml
 - lodash
-- [listr](https://www.npmjs.com/package/listr)
+- [listr2](https://listr2.kilic.dev/)
 - moment
 - underscore.string
 - chalk

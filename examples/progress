@@ -1,19 +1,17 @@
-#!/usr/bin/env NODE_OPTIONS=--no-warnings knob
-
-process.env.NODE_NO_WARNINGS = '1';
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+#!/usr/bin/env knob
 
 module.exports = async ({ ProgressBar, axios, ora, Bluebird }) => {
-  console.log(ProgressBar);
-  return;
-
   const spinner = ora('Fetching todos...').start();
 
   let { data: todos } = await axios.get(
     'https://jsonplaceholder.typicode.com/todos'
   );
 
-  spinner.succeed(`${todos.length.toLocaleString()} todo(s) fetched.`);
+  spinner.succeed(
+    `Summary data for ${todos.length.toLocaleString()} todo(s) fetched.`
+  );
+
+  spinner.info('Fetching details for todos...');
 
   const bar = new ProgressBar('[:bar] :percent :etas', {
     total: todos.length,
@@ -22,7 +20,7 @@ module.exports = async ({ ProgressBar, axios, ora, Bluebird }) => {
   todos = await Bluebird.map(
     todos,
     async (todo) => {
-      const data = await axios.get(
+      const { data } = await axios.get(
         `https://jsonplaceholder.typicode.com/todos/${todo.id}`
       );
       bar.tick();
@@ -33,7 +31,5 @@ module.exports = async ({ ProgressBar, axios, ora, Bluebird }) => {
     }
   );
 
-  console.log(JSON.stringify(todos, null, 2));
-
-  console.log('All done.');
+  spinner.succeed('All done.');
 };

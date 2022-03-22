@@ -2,7 +2,7 @@ import * as fs from 'fs-extra';
 import ProgressBar from 'progress';
 import ora from 'ora';
 import * as path from 'path';
-import * as Bluebird from 'bluebird';
+import Bluebird from 'bluebird';
 import * as execa from 'execa';
 import axios from 'axios';
 import yaml from 'js-yaml';
@@ -19,7 +19,7 @@ import * as marked from 'marked';
 import TerminalRenderer from 'marked-terminal';
 import _fp from 'lodash/fp.js';
 import pkg from './package.json';
-import listr from 'listr';
+import { Listr } from 'listr2';
 const script = process.argv[2];
 
 if (!script) {
@@ -46,7 +46,7 @@ var $ = {
   glob: Bluebird.promisify(glob),
   inquirer,
   ora,
-  listr,
+  Listr,
   ProgressBar,
   retry,
   str,
