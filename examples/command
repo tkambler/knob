@@ -4,6 +4,9 @@
 Briefly demonstrates the use of commander.
 */
 module.exports = async ({ Commander: { program }, delay, ora }, _) => {
+
+  console.log('ARGV', _.argv);
+
   program.name('command').description('An example command').version('1.0.0');
 
   program

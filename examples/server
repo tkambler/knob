@@ -1,0 +1,19 @@
+#!/usr/bin/env knob
+
+module.exports = ({ express, morgan }) => {
+  const app = express();
+  app.use(morgan('combined'));
+  app.use(express.json());
+
+  app.use('/files', express.static(__dirname));
+
+  app.route('/').get((req, res, next) => {
+    return res.send({
+      message: 'Hello, world.',
+    });
+  });
+
+  app.listen(9070, () => {
+    console.log('App is listening on port: 9070');
+  });
+};

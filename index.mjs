@@ -12,10 +12,13 @@ import str from 'underscore.string';
 import _ from 'lodash';
 import moment from 'moment';
 import delay from 'delay';
+import morgan from 'morgan';
 import chalk from 'chalk';
 import prettyJSON from 'prettyjson';
 import glob from 'glob';
 import sudo from 'sudo';
+import { findUp } from 'find-up';
+import express from 'express';
 import sudoBlock from 'sudo-block';
 import isElevated from 'is-elevated';
 import isRoot from 'is-root';
@@ -40,63 +43,96 @@ switch (process.argv[2]) {
     process.exit(0);
 }
 
-if (!process.argv[2]) {
-  console.error('No script specified');
-  process.exit(1);
-}
-
 marked.setOptions({
   renderer: new TerminalRenderer({
     reflowText: true,
   }),
 });
 
-const script = path.isAbsolute(process.argv[2])
-  ? process.argv[2]
-  : path.resolve(process.cwd(), process.argv[2]);
+(async () => {
+  let script;
+  let argv;
 
-require(script)(
-  {
-    _,
-    _fp,
-    AWS,
-    async,
-    axios,
-    Bluebird,
-    chalk,
-    Commander,
-    Conf: function (options = {}) {
-      if (!options.projectName) {
-        throw new Error(`Conf: options.projectName is required`);
+  if (!process.argv[2]) {
+    if (process.env.IGNORE_KNOBFILE === '1') {
+      console.error('Error: No script specified');
+      process.exit(1);
+    }
+    const knobFile = await findUp('knobfile.js');
+    if (!knobFile) {
+      console.error('Error: No script specified and no knobfile.js found');
+      process.exit(1);
+    } else {
+      script = knobFile;
+    }
+  } else {
+    const _script = path.isAbsolute(process.argv[2])
+      ? process.argv[2]
+      : path.resolve(process.cwd(), process.argv[2]);
+    if (await fs.pathExists(_script)) {
+      script = _script;
+      argv = process.argv.slice(1);
+    } else {
+      if (process.env.IGNORE_KNOBFILE === '1') {
+        console.error(`Script does not exist: ${script}`);
+        process.exit(1);
       }
-      return new Conf(options);
-    },
-    delay,
-    enquirer,
-    execa,
-    fs,
-    glob: Bluebird.promisify(glob),
-    inquirer,
-    Listr,
-    marked: marked,
-    NodeSSH,
-    moment,
-    ora,
-    ProgressBar,
-    prettyYAML,
-    prettyJSON,
-    retry,
-    str,
-    isElevated,
-    isRoot,
-    SSHConfig,
-    sudo,
-    sudoBlock,
-    TerminalRenderer,
-    yaml,
-  },
-  {
-    version: pkg.version,
-    argv: process.argv.slice(1),
+      const knobFile = await findUp('knobfile.js');
+      if (knobFile) {
+        script = knobFile;
+        argv = [process.argv[0], knobFile, ...process.argv.slice(2)];
+      } else {
+        console.error(`Script does not exist: ${script}`);
+        process.exit(1);
+      }
+    }
   }
-);
+
+  require(script)(
+    {
+      _,
+      _fp,
+      AWS,
+      async,
+      axios,
+      Bluebird,
+      chalk,
+      Commander,
+      Conf: function (options = {}) {
+        if (!options.projectName) {
+          throw new Error(`Conf: options.projectName is required`);
+        }
+        return new Conf(options);
+      },
+      delay,
+      enquirer,
+      execa,
+      express,
+      fs,
+      glob: Bluebird.promisify(glob),
+      inquirer,
+      Listr,
+      marked: marked,
+      morgan,
+      NodeSSH,
+      moment,
+      ora,
+      ProgressBar,
+      prettyYAML,
+      prettyJSON,
+      retry,
+      str,
+      isElevated,
+      isRoot,
+      SSHConfig,
+      sudo,
+      sudoBlock,
+      TerminalRenderer,
+      yaml,
+    },
+    {
+      version: pkg.version,
+      argv,
+    }
+  );
+})();
