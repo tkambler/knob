@@ -10,7 +10,10 @@ The intended use case is to place knob within the user's PATH, thus allowing the
 const path = require('path');
 const os = require('os');
 
-module.exports = async (params) => {
+module.exports = async ({
+  express,
+  morgan,
+}) => {
   const app = express();
   app.use(morgan('combined'));
   app.use(express.json());
