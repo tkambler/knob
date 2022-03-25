@@ -4,7 +4,7 @@
 
 set -e
 
-KNOB_VERSION='v0.0.5'
+KNOB_VERSION='v0.0.6'
 
 has_wget() {
     if [ $(type -P wget) ]; then

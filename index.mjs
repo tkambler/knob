@@ -5,6 +5,7 @@ import * as path from 'path';
 import Bluebird from 'bluebird';
 import * as execa from 'execa';
 import axios from 'axios';
+import Vault from 'node-vault';
 import { default as Conf } from 'conf';
 import * as Commander from 'commander';
 import yaml from 'js-yaml';
@@ -15,11 +16,17 @@ import delay from 'delay';
 import morgan from 'morgan';
 import chalk from 'chalk';
 import prettyJSON from 'prettyjson';
+import getPort from 'get-port';
+import isPortReachable from 'is-port-reachable';
 import glob from 'glob';
 import sudo from 'sudo';
 import { findUp } from 'find-up';
 import express from 'express';
 import sudoBlock from 'sudo-block';
+import Knex from 'knex';
+import pg from 'pg';
+import betterSqlite3 from 'better-sqlite3';
+import mysql from 'mysql';
 import isElevated from 'is-elevated';
 import isRoot from 'is-root';
 import { NodeSSH } from 'node-ssh';
@@ -109,12 +116,18 @@ marked.setOptions({
       execa,
       express,
       fs,
+      getPort,
       glob: Bluebird.promisify(glob),
       inquirer,
+      isPortReachable,
       Listr,
       marked: marked,
       morgan,
       NodeSSH,
+      Knex,
+      pg,
+      betterSqlite3,
+      mysql,
       moment,
       ora,
       ProgressBar,
@@ -129,6 +142,7 @@ marked.setOptions({
       sudoBlock,
       TerminalRenderer,
       yaml,
+      Vault,
     },
     {
       version: pkg.version,
