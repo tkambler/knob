@@ -37,10 +37,13 @@ If no target script is passed to knob, it will walk up the directory tree in sea
 
 To install or update knob, run the [install script](https://raw.githubusercontent.com/tkambler/knob/v0.0.5/install.sh). To do that, you may either download and run the script manually, or use the following wget or curl command:
 
+### wget
+
 ```
-# Using wget
 wget -qO- https://raw.githubusercontent.com/tkambler/knob/v0.0.5/install.sh | bash
 ```
+
+### curl
 
 ```
 # Using curl
