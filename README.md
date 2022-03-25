@@ -10,10 +10,7 @@ The intended use case is to place knob within the user's PATH, thus allowing the
 const path = require('path');
 const os = require('os');
 
-module.exports = async ({
-  express,
-  morgan,
-}) => {
+module.exports = async ({ express, morgan }) => {
   const app = express();
   app.use(morgan('combined'));
   app.use(express.json());
@@ -35,6 +32,20 @@ module.exports = async ({
 ## knobfile.js
 
 If no target script is passed to knob, it will walk up the directory tree in search of a `knobfile.js` file. If found, it will execute that. Otherwise, it will print an error to the console and exit with status code 1. To override this behavior and prevent knob from searching for `knobfile.js`, set the `IGNORE_KNOBFILE` environment variable to 1.
+
+## Installing and Updating
+
+To install or update knob, run the [install script](https://raw.githubusercontent.com/tkambler/knob/master/install.sh). To do that, you may either download and run the script manually, or use the following wget or curl command:
+
+```
+# Using wget
+wget -qO- https://raw.githubusercontent.com/tkambler/knob/master/install.sh | bash
+```
+
+```
+# Using curl
+curl -o- https://raw.githubusercontent.com/tkambler/knob/master/install.sh | bash
+```
 
 ## Which packages does it include?
 

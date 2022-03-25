@@ -60,6 +60,7 @@ move_bin() {
     if [ $(is_root) == "1" ]; then
         mv /tmp/knob /usr/local/bin/knob
     else
+        echo "Moving knob to: /usr/local/bin/knob"
         sudo mv /tmp/knob /usr/local/bin/knob
     fi
 }
