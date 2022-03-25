@@ -47,6 +47,10 @@ wget -qO- https://raw.githubusercontent.com/tkambler/knob/master/install.sh | ba
 curl -o- https://raw.githubusercontent.com/tkambler/knob/master/install.sh | bash
 ```
 
+## Compiling from Source
+
+Just run `make`. Distributable binaries for MacOS, Linux, and Windows will be saved to `./dist`.
+
 ## Which packages does it include?
 
 - [prettyjson](https://www.npmjs.com/package/prettyjson)
