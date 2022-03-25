@@ -46,7 +46,6 @@ wget -qO- https://raw.githubusercontent.com/tkambler/knob/v0.0.5/install.sh | ba
 ### curl
 
 ```
-# Using curl
 curl -o- https://raw.githubusercontent.com/tkambler/knob/v0.0.5/install.sh | bash
 ```
 
